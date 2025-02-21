@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algae Count Line Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="algaeChart"></canvas>
+
+    <script>
+        const data = [
+            { team: 1073, netAlgaeCount: 8.97, wallAlgaeCount: 3.32 },
+            { team: 5687, netAlgaeCount: 7.02, wallAlgaeCount: 0.74 },
+            { team: 509, netAlgaeCount: 5.47, wallAlgaeCount: 0.79 },
+            { team: 1768, netAlgaeCount: 4.54, wallAlgaeCount: 0.47 },
+            { team: 88, netAlgaeCount: 4.39, wallAlgaeCount: 1.21 },
+            { team: 501, netAlgaeCount: 4.05, wallAlgaeCount: 1.52 },
+            { team: 4909, netAlgaeCount: 2.64, wallAlgaeCount: 1.46 },
+            { team: 1721, netAlgaeCount: 2.60, wallAlgaeCount: 0.86 },
+            { team: 97, netAlgaeCount: 1.89, wallAlgaeCount: -0.08 },
+            { team: 1729, netAlgaeCount: 1.49, wallAlgaeCount: -0.76 },
+            { team: 2877, netAlgaeCount: 1.45, wallAlgaeCount: -0.12 },
+            { team: 246, netAlgaeCount: 1.45, wallAlgaeCount: -0.16 },
+            { team: 238, netAlgaeCount: 1.17, wallAlgaeCount: 0.30 },
+            { team: 1058, netAlgaeCount: 1.03, wallAlgaeCount: 0.93 },
+            { team: 2713, netAlgaeCount: 0.55, wallAlgaeCount: -1.25 },
+            { team: 190, netAlgaeCount: 0.32, wallAlgaeCount: 0.38 },
+            { team: 5494, netAlgaeCount: -0.13, wallAlgaeCount: -0.57 },
+            { team: 2342, netAlgaeCount: -0.18, wallAlgaeCount: 0.48 },
+            { team: 8724, netAlgaeCount: -0.25, wallAlgaeCount: 0.17 },
+            { team: 1153, netAlgaeCount: -0.61, wallAlgaeCount: -0.28 },
+            { team: 8567, netAlgaeCount: -1.09, wallAlgaeCount: -0.34 },
+            { team: 811, netAlgaeCount: -1.47, wallAlgaeCount: 0.62 },
+            { team: 1119, netAlgaeCount: -1.56, wallAlgaeCount: 3.32 },
+            { team: 5422, netAlgaeCount: -3.21, wallAlgaeCount: -0.21 },
+            { team: 4761, netAlgaeCount: -3.86, wallAlgaeCount: -0.12 },
+            { team: 9644, netAlgaeCount: -4.13, wallAlgaeCount: -0.69 },
+            { team: 166, netAlgaeCount: -4.20, wallAlgaeCount: -0.64 },
+            { team: 4905, netAlgaeCount: -4.63, wallAlgaeCount: -0.92 },
+            { team: 2084, netAlgaeCount: -5.39, wallAlgaeCount: -1.41 },
+            { team: 5459, netAlgaeCount: -5.60, wallAlgaeCount: -1.36 },
+            { team: 5813, netAlgaeCount: -6.42, wallAlgaeCount: -1.12 }
+        ];
+
+        const ctx = document.getElementById('algaeChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.map(item => `Team ${item.team}`),
+                datasets: [
+                    {
+                        label: 'Net Algae Count',
+                        data: data.map(item => item.netAlgaeCount),
+                        borderColor: '#FF5733',
+                        backgroundColor: 'rgba(255, 87, 51, 0.2)',
+                        fill: false,
+                        borderWidth: 2,
+                        pointBackgroundColor: '#D32F2F',
+                        pointRadius: 6,
+                        borderDash: [5, 5] // Dotted line style
+                    },
+                    {
+                        label: 'Wall Algae Count',
+                        data: data.map(item => item.wallAlgaeCount),
+                        borderColor: '#28A745',
+                        backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                        fill: false,
+                        borderWidth: 2,
+                        pointBackgroundColor: '#218838',
+                        pointRadius: 6,
+                        borderDash: [] // Solid line style
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false,
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Team'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Algae Count'
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
