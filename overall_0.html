@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Stats Bar Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="teamStatsChart"></canvas>
+
+    <script>
+        const data = [
+            { team: 2877, rankingScore: 3.00, avgCoop: 0.00, avgMatch: 70.00, avgAuto: 10.33, avgBarge: 12.00 },
+            { team: 166, rankingScore: 2.67, avgCoop: 0.00, avgMatch: 55.67, avgAuto: 7.00, avgBarge: 14.67 },
+            { team: 190, rankingScore: 2.33, avgCoop: 0.00, avgMatch: 76.00, avgAuto: 15.00, avgBarge: 10.67 },
+            { team: 8567, rankingScore: 2.33, avgCoop: 0.00, avgMatch: 47.33, avgAuto: 5.00, avgBarge: 2.67 },
+            { team: 1058, rankingScore: 2.00, avgCoop: 0.00, avgMatch: 47.67, avgAuto: 6.33, avgBarge: 2.00 },
+            { team: 2713, rankingScore: 1.67, avgCoop: 0.00, avgMatch: 59.00, avgAuto: 9.33, avgBarge: 6.00 },
+            { team: 1153, rankingScore: 1.67, avgCoop: 0.00, avgMatch: 58.33, avgAuto: 8.33, avgBarge: 11.33 },
+            { team: 4909, rankingScore: 1.67, avgCoop: 0.00, avgMatch: 56.67, avgAuto: 11.67, avgBarge: 3.33 },
+            { team: 1768, rankingScore: 1.67, avgCoop: 0.00, avgMatch: 48.67, avgAuto: 8.67, avgBarge: 7.33 },
+            { team: 2342, rankingScore: 1.67, avgCoop: 0.00, avgMatch: 46.33, avgAuto: 6.33, avgBarge: 2.67 },
+            { team: 8724, rankingScore: 1.67, avgCoop: 0.00, avgMatch: 40.00, avgAuto: 5.00, avgBarge: 6.67 },
+            { team: 1729, rankingScore: 1.67, avgCoop: 0.00, avgMatch: 28.33, avgAuto: 9.33, avgBarge: 4.00 },
+            { team: 1119, rankingScore: 1.33, avgCoop: 0.00, avgMatch: 55.00, avgAuto: 7.33, avgBarge: 2.67 },
+            { team: 88, rankingScore: 1.33, avgCoop: 0.00, avgMatch: 40.33, avgAuto: 7.00, avgBarge: 2.67 },
+            { team: 811, rankingScore: 1.33, avgCoop: 0.00, avgMatch: 21.00, avgAuto: 2.00, avgBarge: 4.00 },
+            { team: 9644, rankingScore: 1.00, avgCoop: 0.00, avgMatch: 45.33, avgAuto: 7.33, avgBarge: 2.67 },
+            { team: 5687, rankingScore: 1.00, avgCoop: 0.00, avgMatch: 40.33, avgAuto: 6.33, avgBarge: 6.00 },
+            { team: 509, rankingScore: 1.00, avgCoop: 0.00, avgMatch: 29.00, avgAuto: 2.00, avgBarge: 8.00 },
+            { team: 246, rankingScore: 1.00, avgCoop: 0.00, avgMatch: 23.00, avgAuto: 4.00, avgBarge: 2.67 },
+            { team: 2084, rankingScore: 0.67, avgCoop: 0.00, avgMatch: 29.33, avgAuto: 4.33, avgBarge: 4.00 },
+            { team: 5422, rankingScore: 0.67, avgCoop: 0.00, avgMatch: 28.67, avgAuto: 5.33, avgBarge: 2.00 },
+            { team: 4905, rankingScore: 0.67, avgCoop: 0.00, avgMatch: 26.00, avgAuto: 6.33, avgBarge: 4.67 },
+            { team: 238, rankingScore: 0.67, avgCoop: 0.00, avgMatch: 25.67, avgAuto: 4.33, avgBarge: 2.00 },
+            { team: 5494, rankingScore: 0.67, avgCoop: 0.00, avgMatch: 24.67, avgAuto: 1.00, avgBarge: 2.67 },
+            { team: 1721, rankingScore: 0.67, avgCoop: 0.00, avgMatch: 22.00, avgAuto: 4.00, avgBarge: 3.33 },
+            { team: 1073, rankingScore: 0.67, avgCoop: 0.00, avgMatch: 21.00, avgAuto: 4.00, avgBarge: 6.00 },
+            { team: 4761, rankingScore: 0.67, avgCoop: 0.00, avgMatch: 20.00, avgAuto: 4.00, avgBarge: 3.33 },
+            { team: 5459, rankingScore: 0.67, avgCoop: 0.00, avgMatch: 20.00, avgAuto: 3.00, avgBarge: 3.33 },
+            { team: 501, rankingScore: 0.33, avgCoop: 0.00, avgMatch: 32.67, avgAuto: 4.00, avgBarge: 7.33 },
+            { team: 5813, rankingScore: 0.33, avgCoop: 0.00, avgMatch: 28.67, avgAuto: 6.33, avgBarge: 6.67 },
+            { team: 97, rankingScore: 0.00, avgCoop: 0.00, avgMatch: 10.67, avgAuto: 2.00, avgBarge: 2.00 }
+        ];
+
+        const ctx = document.getElementById('teamStatsChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.map(item => `Team ${item.team}`),
+                datasets: [
+                    {
+                        label: 'Ranking Score',
+                        data: data.map(item => item.rankingScore),
+                        backgroundColor: '#FF5733',
+                    },
+                    {
+                        label: 'Avg Coop',
+                        data: data.map(item => item.avgCoop),
+                        backgroundColor: '#28A745',
+                    },
+                    {
+                        label: 'Avg Match',
+                        data: data.map(item => item.avgMatch),
+                        backgroundColor: '#17A2B8',
+                    },
+                    {
+                        label: 'Avg Auto',
+                        data: data.map(item => item.avgAuto),
+                        backgroundColor: '#FFC107',
+                    },
+                    {
+                        label: 'Avg Barge',
+                        data: data.map(item => item.avgBarge),
+                        backgroundColor: '#6C757D',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Team'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Values'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
