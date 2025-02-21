@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OPR (Offensive Power Rating) Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="oprChart"></canvas>
+
+    <script>
+        const data = [
+            { team: 166, opr: 55.61 },
+            { team: 190, opr: 51.93 },
+            { team: 2342, opr: 50.39 },
+            { team: 4909, opr: 41.52 },
+            { team: 1058, opr: 36.13 },
+            { team: 1153, opr: 31.74 },
+            { team: 8724, opr: 30.30 },
+            { team: 9644, opr: 23.39 },
+            { team: 1119, opr: 22.88 },
+            { team: 5813, opr: 20.59 },
+            { team: 4761, opr: 19.56 },
+            { team: 5459, opr: 15.82 },
+            { team: 501, opr: 14.92 },
+            { team: 811, opr: 14.04 },
+            { team: 1721, opr: 12.92 },
+            { team: 8567, opr: 12.61 },
+            { team: 2877, opr: 11.64 },
+            { team: 97, opr: 11.41 },
+            { team: 2084, opr: 8.83 },
+            { team: 2713, opr: 8.56 },
+            { team: 5422, opr: 8.13 },
+            { team: 5687, opr: 3.44 },
+            { team: 88, opr: 2.27 },
+            { team: 238, opr: -7.06 },
+            { team: 1768, opr: -7.09 },
+            { team: 1073, opr: -8.65 },
+            { team: 509, opr: -10.74 },
+            { team: 5494, opr: -11.18 },
+            { team: 4905, opr: -14.01 },
+            { team: 246, opr: -17.35 },
+            { team: 1729, opr: -18.91 }
+        ];
+
+        const ctx = document.getElementById('oprChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.map(item => `Team ${item.team}`),
+                datasets: [{
+                    label: 'OPR (Offensive Power Rating)',
+                    data: data.map(item => item.opr),
+                    backgroundColor: data.map(item => item.opr >= 0 ? '#4caf50' : '#f44336'), // Green for positive, Red for negative
+                    borderColor: '#000',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toFixed(2); // Format y-axis labels with 2 decimal places
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return `OPR: ${tooltipItem.raw.toFixed(2)}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
