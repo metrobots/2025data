@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multiple Dataset Line Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="multiDatasetChart"></canvas>
+
+    <script>
+        const data = [
+            { team: 4905, coralCount: 1.56, mobilityPoints: 4.06, autoPoints: 12.09, coralPoints: 8.03 },
+            { team: 2084, coralCount: 1.42, mobilityPoints: 5.11, autoPoints: 14.82, coralPoints: 9.72 },
+            { team: 1729, coralCount: 1.41, mobilityPoints: 7.79, autoPoints: 12.85, coralPoints: 5.06 },
+            { team: 2713, coralCount: 1.19, mobilityPoints: 12.47, autoPoints: 18.45, coralPoints: 5.99 },
+            { team: 246, coralCount: 1.05, mobilityPoints: 0.11, autoPoints: 1.29, coralPoints: 1.43 },
+            { team: 1768, coralCount: 1.04, mobilityPoints: 2.22, autoPoints: 3.01, coralPoints: 0.79 },
+            { team: 88, coralCount: 1.02, mobilityPoints: -2.38, autoPoints: -1.67, coralPoints: 0.70 },
+            { team: 5494, coralCount: 0.94, mobilityPoints: 2.12, autoPoints: 5.18, coralPoints: 3.06 },
+            { team: 190, coralCount: 0.88, mobilityPoints: 4.64, autoPoints: 13.35, coralPoints: 8.72 },
+            { team: 5459, coralCount: 0.81, mobilityPoints: 9.72, autoPoints: 16.78, coralPoints: 7.06 },
+            { team: 5422, coralCount: 0.78, mobilityPoints: -2.53, autoPoints: 0.69, coralPoints: 3.22 },
+            { team: 1153, coralCount: 0.67, mobilityPoints: -0.03, autoPoints: 2.48, coralPoints: 2.51 },
+            { team: 5813, coralCount: 0.61, mobilityPoints: 3.22, autoPoints: 6.50, coralPoints: 3.28 },
+            { team: 9644, coralCount: 0.56, mobilityPoints: 5.14, autoPoints: 9.28, coralPoints: 4.14 },
+            { team: 8567, coralCount: 0.53, mobilityPoints: 5.76, autoPoints: 9.18, coralPoints: 3.42 },
+            { team: 2877, coralCount: 0.44, mobilityPoints: 4.16, autoPoints: 2.94, coralPoints: -1.22 },
+            { team: 1119, coralCount: 0.27, mobilityPoints: 1.09, autoPoints: 1.60, coralPoints: 0.51 },
+            { team: 4761, coralCount: 0.19, mobilityPoints: 2.75, autoPoints: 3.28, coralPoints: 0.53 },
+            { team: 166, coralCount: 0.04, mobilityPoints: 6.18, autoPoints: 8.41, coralPoints: 2.24 },
+            { team: 238, coralCount: -0.15, mobilityPoints: 0.38, autoPoints: -1.85, coralPoints: -2.23 },
+            { team: 811, coralCount: -0.32, mobilityPoints: -4.91, autoPoints: -6.96, coralPoints: -2.05 },
+            { team: 509, coralCount: -0.47, mobilityPoints: -3.92, autoPoints: -4.96, coralPoints: -1.04 },
+            { team: 5687, coralCount: -0.49, mobilityPoints: -1.73, autoPoints: -6.74, coralPoints: -5.01 },
+            { team: 97, coralCount: -0.63, mobilityPoints: 2.37, autoPoints: 1.37, coralPoints: -0.99 },
+            { team: 4909, coralCount: -0.97, mobilityPoints: -0.97, autoPoints: -6.13, coralPoints: -2.20 },
+            { team: 8724, coralCount: -1.08, mobilityPoints: 0.46, autoPoints: -2.56, coralPoints: -3.02 },
+            { team: 1058, coralCount: -1.46, mobilityPoints: -4.59, autoPoints: -11.08, coralPoints: -6.50 },
+            { team: 2342, coralCount: -1.58, mobilityPoints: 0.11, autoPoints: -4.73, coralPoints: -4.84 },
+            { team: 1073, coralCount: -1.60, mobilityPoints: -4.43, autoPoints: -14.69, coralPoints: -10.26 },
+            { team: 1721, coralCount: -1.61, mobilityPoints: -1.87, autoPoints: -7.45, coralPoints: -5.58 },
+            { team: 501, coralCount: -1.86, mobilityPoints: -6.43, autoPoints: -14.92, coralPoints: -8.49 }
+        ];
+
+        const ctx = document.getElementById('multiDatasetChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.map(item => `Team ${item.team}`),
+                datasets: [
+                    {
+                        label: 'Auto Coral Count',
+                        data: data.map(item => item.coralCount),
+                        borderColor: '#4caf50',
+                        backgroundColor: 'rgba(76, 175, 80, 0.2)',
+                        fill: true,
+                        borderWidth: 2,
+                        pointBackgroundColor: '#388e3c',
+                        pointRadius: 5
+                    },
+                    {
+                        label: 'Auto Mobility Points',
+                        data: data.map(item => item.mobilityPoints),
+                        borderColor: '#f44336',
+                        backgroundColor: 'rgba(244, 67, 54, 0.2)',
+                        fill: true,
+                        borderWidth: 2,
+                        pointBackgroundColor: '#d32f2f',
+                        pointRadius: 5
+                    },
+                    {
+                        label: 'Auto Points',
+                        data: data.map(item => item.autoPoints),
+                        borderColor: '#2196f3',
+                        backgroundColor: 'rgba(33, 150, 243, 0.2)',
+                        fill: true,
+                        borderWidth: 2,
+                        pointBackgroundColor: '#1976d2',
+                        pointRadius: 5
+                    },
+                    {
+                        label: 'Auto Coral Points',
+                        data: data.map(item => item.coralPoints),
+                        borderColor: '#ff9800',
+                        backgroundColor: 'rgba(255, 152, 0, 0.2)',
+                        fill: true,
+                        borderWidth: 2,
+                        pointBackgroundColor: '#f57c00',
+                        pointRadius: 5
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        ticks: {
+                            callback: function(value) {
+                                return value.toFixed(2);
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return `${tooltipItem.dataset.label}: ${tooltipItem.raw.toFixed(2)}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
