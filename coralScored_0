@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teleop Coral Count Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="teleopChart"></canvas>
+    <script>
+        const data = [
+            { team: 166, coralCount: 13.18 },
+            { team: 1058, coralCount: 12.44 },
+            { team: 2342, coralCount: 11.41 },
+            { team: 5813, coralCount: 10.46 },
+            { team: 4909, coralCount: 8.85 },
+            { team: 4761, coralCount: 8.30 },
+            { team: 5422, coralCount: 7.79 },
+            { team: 811, coralCount: 7.70 },
+            { team: 1153, coralCount: 7.32 },
+            { team: 8724, coralCount: 6.04 },
+            { team: 9644, coralCount: 5.79 },
+            { team: 1119, coralCount: 5.07 },
+            { team: 501, coralCount: 4.32 },
+            { team: 2877, coralCount: 3.77 },
+            { team: 1721, coralCount: 1.24 },
+            { team: 190, coralCount: 1.16 },
+            { team: 5459, coralCount: 0.79 },
+            { team: 238, coralCount: 0.12 },
+            { team: 2084, coralCount: -1.61 },
+            { team: 5687, coralCount: -2.23 },
+            { team: 4905, coralCount: -2.47 },
+            { team: 246, coralCount: -2.63 },
+            { team: 8567, coralCount: -2.66 },
+            { team: 5494, coralCount: -2.86 },
+            { team: 88, coralCount: -3.59 },
+            { team: 97, coralCount: -4.20 },
+            { team: 1073, coralCount: -4.33 },
+            { team: 1768, coralCount: -4.66 },
+            { team: 2713, coralCount: -7.60 },
+            { team: 1729, coralCount: -8.64 },
+            { team: 509, coralCount: -11.63 },
+        ];
+
+        const ctx = document.getElementById('teleopChart').getContext('2d');
+        
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.map(item => `Team ${item.team}`),
+                datasets: [{
+                    label: 'Teleop Coral Count',
+                    data: data.map(item => item.coralCount),
+                    backgroundColor: data.map(item => item.coralCount >= 0 ? '#4caf50' : '#f44336'),
+                    borderColor: '#000',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return `Coral Count: ${tooltipItem.raw.toFixed(2)}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
