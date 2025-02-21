@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teleop Data Line Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="teleopChart"></canvas>
+
+    <script>
+        const data = [
+            { team: 166, teleopCoralCount: 13.18, teleopPoints: 50.47, teleopCoralPoints: 60.24, algaePoints: -20.68 },
+            { team: 1058, teleopCoralCount: 12.44, teleopPoints: 60.38, teleopCoralPoints: 48.52, algaePoints: 9.66 },
+            { team: 2342, teleopCoralCount: 11.41, teleopPoints: 60.59, teleopCoralPoints: 55.31, algaePoints: 2.16 },
+            { team: 5813, teleopCoralCount: 10.46, teleopPoints: 14.02, teleopCoralPoints: 43.23, algaePoints: -32.40 },
+            { team: 4909, teleopCoralCount: 8.85, teleopPoints: -30.54, teleopCoralPoints: 35.47, algaePoints: -24.07 },
+            { team: 4761, teleopCoralCount: 8.30, teleopPoints: 19.31, teleopCoralPoints: 34.69, algaePoints: -16.13 },
+            { team: 5422, teleopCoralCount: 7.79, teleopPoints: 15.23, teleopCoralPoints: 28.14, algaePoints: -14.11 },
+            { team: 811, teleopCoralCount: 7.70, teleopPoints: 27.77, teleopCoralPoints: 26.72, algaePoints: -2.17 },
+            { team: 1153, teleopCoralCount: 7.32, teleopPoints: 30.18, teleopCoralPoints: 27.78, algaePoints: -4.12 },
+            { team: 8724, teleopCoralCount: 6.04, teleopPoints: 31.86, teleopCoralPoints: 31.62, algaePoints: 0.01 },
+            { team: 9644, teleopCoralCount: 5.79, teleopPoints: 13.26, teleopCoralPoints: 31.50, algaePoints: -20.70 },
+            { team: 1119, teleopCoralCount: 5.07, teleopPoints: 23.38, teleopCoralPoints: 10.56, algaePoints: 13.66 },
+            { team: 501, teleopCoralCount: 4.32, teleopPoints: 40.10, teleopCoralPoints: 7.83, algaePoints: 25.35 },
+            { team: 2877, teleopCoralCount: 3.77, teleopPoints: 9.44, teleopCoralPoints: 2.30, algaePoints: 5.08 },
+            { team: 1721, teleopCoralCount: 1.24, teleopPoints: 24.68, teleopCoralPoints: 7.92, algaePoints: 15.56 },
+            { team: 190, teleopCoralCount: 1.16, teleopPoints: 32.45, teleopCoralPoints: 21.95, algaePoints: 3.58 },
+            { team: 5459, teleopCoralCount: 0.79, teleopPoints: -9.82, teleopCoralPoints: 23.94, algaePoints: -30.55 },
+            { team: 238, teleopCoralCount: 0.12, teleopPoints: -3.44, teleopCoralPoints: -6.12, algaePoints: 6.50 },
+            { team: 2084, teleopCoralCount: -1.61, teleopPoints: -16.61, teleopCoralPoints: 16.77, algaePoints: -30.04 },
+            { team: 5687, teleopCoralCount: -2.23, teleopPoints: 12.09, teleopCoralPoints: -24.61, algaePoints: 32.53 },
+            { team: 4905, teleopCoralCount: -2.47, teleopPoints: -30.54, teleopCoralPoints: -1.64, algaePoints: -24.07 },
+            { team: 246, teleopCoralCount: -2.63, teleopPoints: -22.38, teleopCoralPoints: -6.12, algaePoints: 4.85 },
+            { team: 8567, teleopCoralCount: -2.66, teleopPoints: -4.66, teleopCoralPoints: 0.05, algaePoints: -6.38 },
+            { team: 5494, teleopCoralCount: -2.86, teleopPoints: -22.09, teleopCoralPoints: -14.90, algaePoints: -3.95 },
+            { team: 88, teleopCoralCount: -3.59, teleopPoints: -5.41, teleopCoralPoints: -26.38, algaePoints: 24.82 },
+            { team: 97, teleopCoralCount: -4.20, teleopPoints: -0.03, teleopCoralPoints: -10.23, algaePoints: 7.10 },
+            { team: 1073, teleopCoralCount: -4.33, teleopPoints: 7.65, teleopCoralPoints: -43.04, algaePoints: 45.19 },
+            { team: 1768, teleopCoralCount: -4.66, teleopPoints: -12.05, teleopCoralPoints: -37.61, algaePoints: 20.99 },
+            { team: 2713, teleopCoralCount: -7.60, teleopPoints: -25.11, teleopCoralPoints: -20.44, algaePoints: -5.26 },
+            { team: 1729, teleopCoralCount: -8.64, teleopPoints: -38.31, teleopCoralPoints: -40.97, algaePoints: 1.36 },
+            { team: 509, teleopCoralCount: -11.63, teleopPoints: -10.73, teleopCoralPoints: -41.30, algaePoints: 26.66 }
+        ];
+
+        const ctx = document.getElementById('teleopChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.map(item => `Team ${item.team}`),
+                datasets: [
+                    {
+                        label: 'Teleop Coral Count',
+                        data: data.map(item => item.teleopCoralCount),
+                        borderColor: '#FF5733',
+                        backgroundColor: 'rgba(255, 87, 51, 0.2)',
+                        fill: false,
+                        borderWidth: 2,
+                        pointBackgroundColor: '#D32F2F',
+                        pointRadius: 5,
+                        borderDash: [5, 5] // Dotted line style
+                    },
+                    {
+                        label: 'Teleop Points',
+                        data: data.map(item => item.teleopPoints),
+                        borderColor: '#28A745',
+                        backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                        fill: false,
+                        borderWidth: 2,
+                        pointBackgroundColor: '#218838',
+                        pointRadius: 5,
+                        borderDash: [] // Solid line style
+                    },
+                    {
+                        label: 'Teleop Coral Points',
+                        data: data.map(item => item.teleopCoralPoints),
+                        borderColor: '#007BFF',
+                        backgroundColor: 'rgba(0, 123, 255, 0.2)',
+                        fill: false,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#0056b3',
+                        pointRadius: 5,
+                        borderDash: [10, 5] // Long dashed line style
+                    },
+                    {
+                        label: 'Algae Points',
+                        data: data.map(item => item.algaePoints),
+                        borderColor: '#FFC107',
+                        backgroundColor: 'rgba(255, 193, 7, 0.2)',
+                        fill: false,
+                        borderWidth: 3,
+                        pointBackgroundColor: '#FFB300',
+                        pointRadius: 5,
+                        borderDash: [2, 6] // Short dashed line style
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false,
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Team'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Points'
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
