@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bonus Achieved Line Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="bonusChart"></canvas>
+
+    <script>
+        const data = [
+            { team: 5459, autoBonus: 1.08, coralBonus: 0.00, bargeBonus: 0.08 },
+            { team: 9644, autoBonus: 0.98, coralBonus: 0.00, bargeBonus: 0.16 },
+            { team: 2084, autoBonus: 0.83, coralBonus: 0.00, bargeBonus: 0.15 },
+            { team: 4905, autoBonus: 0.75, coralBonus: 0.00, bargeBonus: -0.63 },
+            { team: 1153, autoBonus: 0.75, coralBonus: 0.00, bargeBonus: 0.31 },
+            { team: 5813, autoBonus: 0.71, coralBonus: 0.00, bargeBonus: -0.17 },
+            { team: 166, autoBonus: 0.46, coralBonus: 0.00, bargeBonus: 0.49 },
+            { team: 4761, autoBonus: 0.46, coralBonus: 0.00, bargeBonus: -0.25 },
+            { team: 1729, autoBonus: 0.46, coralBonus: 0.00, bargeBonus: -0.23 },
+            { team: 2713, autoBonus: 0.31, coralBonus: 0.00, bargeBonus: 0.84 },
+            { team: 5494, autoBonus: 0.25, coralBonus: 0.00, bargeBonus: -0.07 },
+            { team: 8567, autoBonus: 0.24, coralBonus: 0.00, bargeBonus: 0.63 },
+            { team: 2877, autoBonus: 0.20, coralBonus: 0.00, bargeBonus: -0.01 },
+            { team: 1119, autoBonus: 0.13, coralBonus: 0.00, bargeBonus: -0.29 },
+            { team: 5422, autoBonus: 0.13, coralBonus: 0.00, bargeBonus: -0.21 },
+            { team: 97, autoBonus: 0.04, coralBonus: 0.00, bargeBonus: 0.61 },
+            { team: 190, autoBonus: 0.03, coralBonus: 0.00, bargeBonus: 0.68 },
+            { team: 246, autoBonus: 0.00, coralBonus: 0.00, bargeBonus: 0.08 },
+            { team: 8724, autoBonus: -0.06, coralBonus: 0.00, bargeBonus: 0.12 },
+            { team: 238, autoBonus: -0.14, coralBonus: 0.00, bargeBonus: -0.39 },
+            { team: 2342, autoBonus: -0.28, coralBonus: 0.00, bargeBonus: 0.27 },
+            { team: 811, autoBonus: -0.35, coralBonus: 0.00, bargeBonus: -0.57 },
+            { team: 1768, autoBonus: -0.42, coralBonus: 0.00, bargeBonus: 0.38 },
+            { team: 4909, autoBonus: -0.44, coralBonus: 0.00, bargeBonus: -0.63 },
+            { team: 1058, autoBonus: -0.45, coralBonus: 0.00, bargeBonus: -0.55 },
+            { team: 509, autoBonus: -0.61, coralBonus: 0.00, bargeBonus: 0.54 },
+            { team: 5687, autoBonus: -0.71, coralBonus: 0.00, bargeBonus: 0.50 },
+            { team: 88, autoBonus: -0.72, coralBonus: 0.00, bargeBonus: -0.43 },
+            { team: 1721, autoBonus: -0.96, coralBonus: 0.00, bargeBonus: -0.23 },
+            { team: 501, autoBonus: -1.05, coralBonus: 0.00, bargeBonus: -0.15 },
+            { team: 1073, autoBonus: -1.24, coralBonus: 0.00, bargeBonus: 0.12 }
+        ];
+
+        const ctx = document.getElementById('bonusChart').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: data.map(item => `Team ${item.team}`),
+                datasets: [
+                    {
+                        label: 'Auto Bonus Achieved',
+                        data: data.map(item => item.autoBonus),
+                        borderColor: '#FF5733',
+                        backgroundColor: 'rgba(255, 87, 51, 0.2)',
+                        fill: true,
+                        borderWidth: 2,
+                        pointBackgroundColor: '#D32F2F',
+                        pointRadius: 6,
+                    },
+                    {
+                        label: 'Coral Bonus Achieved',
+                        data: data.map(item => item.coralBonus),
+                        borderColor: '#28A745',
+                        backgroundColor: 'rgba(40, 167, 69, 0.2)',
+                        fill: true,
+                        borderWidth: 2,
+                        pointBackgroundColor: '#218838',
+                        pointRadius: 6,
+                    },
+                    {
+                        label: 'Barge Bonus Achieved',
+                        data: data.map(item => item.bargeBonus),
+                        borderColor: '#17A2B8',
+                        backgroundColor: 'rgba(23, 162, 184, 0.2)',
+                        fill: true,
+                        borderWidth: 2,
+                        pointBackgroundColor: '#138496',
+                        pointRadius: 6,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    }
+                },
+                interaction: {
+                    mode: 'nearest',
+                    axis: 'x',
+                    intersect: false,
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Team'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Bonus Achieved (RP)'
+                        },
+                        ticks: {
+                            beginAtZero: true,
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
